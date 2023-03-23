@@ -1,4 +1,5 @@
 --QUERIES
+                 
 --1
 
 SELECT * FROM worker
@@ -45,3 +46,4 @@ select * from worker where FIRST_NAME like '%_a'
 --10
 
 select * from worker where FIRST_NAME like '%a%'
+
