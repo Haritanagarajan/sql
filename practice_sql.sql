@@ -360,3 +360,55 @@ FROM employee group by cube(name,dept_idemp)
   FROM employee1
   GROUP BY cube (department,gender) 
 
+  --TRIGGERS AND SOFT DELETE
+
+   CREATE TABLE recipe (
+ ID INT IDENTITY(1,1) PRIMARY KEY,
+ name VARCHAR(50) NOT NULL,
+ category VARCHAR(50) NOT NULL,
+ steps VARCHAR(500) NOT NULL,
+ ing01 VARCHAR(75),
+ ing02 VARCHAR(75),
+ ing03 VARCHAR(75),
+ created_date DATETIME NOT NULL DEFAULT GETDATE(),
+ modifed_date DATETIME
+ )
+
+insert into recipe(name,category,steps,ing01,ing02,ing03)values('Noodles','AllTimeFav','3','Water','Vegetables','Noodles')
+
+select * from dbo.recipe
+
+update recipe set ing02='Vegetables' where id=1
+
+ CREATE TRIGGER set_modified_date on recipe FOR UPDATE AS
+ BEGIN
+     UPDATE recipe
+     SET modifed_Date = GETDATE()
+     FROM recipe INNER JOIN deleted d ON recipe.id = d.id
+ END
+ 
+ ALTER TABLE recipe ENABLE TRIGGER [set_modified_date]
+ 
+ 
+-- Soft Delete using Triggers - instead of permanently deleting the records
+
+ ALTER TABLE recipe
+  ADD IsDeleted BIT NOT NULL DEFAULT 0;
+
+CREATE OR ALTER TRIGGER SoftDelete_Recipe ON recipe
+  INSTEAD OF DELETE AS
+BEGIN
+SET NOCOUNT ON;
+UPDATE recipe
+  SET IsDeleted = 1
+  WHERE Id IN (SELECT Id FROM deleted);
+END
+
+select * from recipe
+
+insert into recipe(name,category,steps,ing01,ing02,ing03)values('Coffee','Beverage','3','MIlk','Sugar','Coffee Powder')
+
+delete from dbo.recipe where id=3
+
+
+
