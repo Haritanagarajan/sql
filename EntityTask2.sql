@@ -1,0 +1,66 @@
+use MvcDatabase
+
+/*Training*/
+create table Training
+(
+Did int primary key,
+Dname varchar(20)
+)
+
+insert into Training values (189,'Dotnet'),(120,'React JS'),(180,'Angular JS'),(170,'Node JS'),(130,'PHP')
+
+select * from Training
+
+ ALTER TABLE Training ADD IsDeleted BIT NOT NULL DEFAULT 0;
+
+
+  create trigger SoftDelete1 ON Training
+  instead of delete
+  as begin
+  set nocount on;
+  update Training
+  set IsDeleted= 1
+  WHERE Did IN (SELECT Did FROM deleted);
+  END
+
+
+/*Trainee*/
+create table Trainee
+(
+Tid int primary key,
+Tname varchar(20),
+TDomainid int references Training(Did),
+Tprofile varbinary (max)
+)
+
+insert into Trainee values (1,'Harita',189,0),(2,'Ranita',120,1),(3,'Harishmitha',180,0),(4,'Yamini',170,0000111),(5,'Vasanth',130,1)
+
+select * from Trainee
+select * from Training
+
+ 
+  alter table Trainee drop column No
+
+--ON DELETE CASCADE --ON UPDATE SET DEFAULT
+
+
+ALTER TABLE Trainee DROP CONSTRAINT [FK__Trainee__TDomain__628FA481]
+ALTER TABLE Trainee DROP COLUMN TDomainid 
+
+
+ALTER TABLE Trainee ADD TDomainid INT DEFAULT 120 CONSTRAINT FK_Trainee_TDomainid FOREIGN KEY(TDomainid) REFERENCES Training(Did) ON DELETE CASCADE ON UPDATE SET DEFAULT
+
+DELETE FROM Training WHERE Did=8
+
+
+select * from Trainee
+select * from Training
+
+delete from Training where Did=6
+
+update Training set Did=173 where DID=103
+
+insert into Trainee values (6,'Hari',0,0,103)
+
+
+
