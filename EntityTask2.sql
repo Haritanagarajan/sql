@@ -62,5 +62,23 @@ update Training set Did=173 where DID=103
 
 insert into Trainee values (6,'Hari',0,0,103)
 
+update Trainee set TDomainid=130 where Tid=1
+update Trainee set TDomainid=180 where Tid=2
+update Trainee set TDomainid=173 where Tid=3
+update Trainee set TDomainid=120 where Tid=4
+update Trainee set TDomainid=130 where Tid=5
 
+update Training set Dname='Express JS ' where Did=30
 
+/*User Table*/
+
+create table UserAuth
+(
+UserId int primary key,
+UserName varchar(20) ,
+UserRole varchar(20)
+)
+
+insert into UserAuth values(1,'Dora','User'),(2,'Hatori','Admin')
+
+select * from UserAuth
