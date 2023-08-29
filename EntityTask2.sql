@@ -44,31 +44,29 @@ select * from Training
 --ON DELETE CASCADE --ON UPDATE SET DEFAULT
 
 
-ALTER TABLE Trainee DROP CONSTRAINT [FK__Trainee__TDomain__628FA481]
+ALTER TABLE Trainee DROP CONSTRAINT [FK__Trainee__TDomain__1332DBDC]
 ALTER TABLE Trainee DROP COLUMN TDomainid 
 
 
 ALTER TABLE Trainee ADD TDomainid INT DEFAULT 120 CONSTRAINT FK_Trainee_TDomainid FOREIGN KEY(TDomainid) REFERENCES Training(Did) ON DELETE CASCADE ON UPDATE SET DEFAULT
 
-DELETE FROM Training WHERE Did=8
-
+DELETE FROM Training WHERE Did=180
 
 select * from Trainee
 select * from Training
 
 delete from Training where Did=6
 
-update Training set Did=173 where DID=103
+update Training set Did=173 where Did=189
 
 insert into Trainee values (6,'Hari',0,0,103)
 
 update Trainee set TDomainid=130 where Tid=1
-update Trainee set TDomainid=180 where Tid=2
-update Trainee set TDomainid=173 where Tid=3
-update Trainee set TDomainid=120 where Tid=4
-update Trainee set TDomainid=130 where Tid=5
+update Trainee set TDomainid=120 where Tid=2
+update Trainee set TDomainid=170 where Tid=3
+update Trainee set TDomainid=189 where Tid=4
+update Trainee set TDomainid=180 where Tid=5
 
-update Training set Dname='Express JS ' where Did=30
 
 /*User Table*/
 
@@ -82,3 +80,8 @@ UserRole varchar(20)
 insert into UserAuth values(1,'Dora','User'),(2,'Hatori','Admin')
 
 select * from UserAuth
+
+
+
+
+
