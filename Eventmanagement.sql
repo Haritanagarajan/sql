@@ -9,8 +9,23 @@ id int,
 eventname varchar(20)
 )
 
+ ALTER TABLE eventstable ADD IsDeleted BIT NOT NULL DEFAULT 0;
 
-insert into eventstable values(101,1,'Birthday_Parties')
+ select * from eventstable
+
+  create trigger SoftDelete2 ON eventstable
+  instead of delete
+  as begin
+  set nocount on;
+  update eventstable
+  set IsDeleted= 1
+  WHERE eventsid IN (SELECT eventsid  FROM deleted);
+  END
+
+
+
+insert into eventstable values(101,1,'Birthday_Parties'),
+insert into eventstable values(102,2,'Baby Shower')
 
 create table locationtable
 (
@@ -18,6 +33,22 @@ locationid int primary key,
 locationname varchar(20),
 pincode bigint,
 )
+
+
+ ALTER TABLE locationtable ADD IsDeletedlocation BIT NOT NULL DEFAULT 0;
+
+ select * from locationtable
+
+  create trigger SoftDelete3 ON locationtable
+  instead of delete
+  as begin
+  set nocount on;
+  update locationtable
+  set IsDeletedlocation= 1
+  WHERE locationid IN (SELECT locationid  FROM deleted);
+  END
+
+
 
 insert into locationtable values(001,'La_Cafe',641003),(002,'Cups_Cafe',641009),(003,'Must_Try_Cafe',642065),(004,'Lorry_Owners_Hall',641024),(005,'Amirtha_Party_Hall',600213),(006,'Subaveena_Hall',643124)
 
@@ -28,6 +59,20 @@ themeid int primary key,
 themename varchar(20)
 )
 
+
+ ALTER TABLE themetable ADD IsDeletedtheme BIT NOT NULL DEFAULT 0;
+
+ select * from themetable
+
+  create trigger SoftDelete4 ON themetable
+  instead of delete
+  as begin
+  set nocount on;
+  update themetable
+  set IsDeletedtheme= 1
+  WHERE themeid IN (SELECT themeid  FROM deleted);
+  END
+
 insert into themetable values(011,'Black and Blue'),(012,'Pink and Blue'),(013,'green and cyan'),(014,'white and black'),(015,'Blach and white')
 
 
@@ -37,6 +82,20 @@ dateid int primary key,
 datesavailable date
 )
 
+
+ ALTER TABLE  datetable ADD IsDeleteddate BIT NOT NULL DEFAULT 0;
+
+ select * from  datetable
+
+  create trigger SoftDelete5 ON  datetable
+  instead of delete
+  as begin
+  set nocount on;
+  update  datetable
+  set IsDeleteddate= 1
+  WHERE dateid IN (SELECT dateid  FROM deleted);
+  END
+
 insert into datetable values(021,'2023-08-04'),(022,'2023-08-08'),(023,'2023-08-12'),(024,'2023-08-16'),(025,'2023-08-20'),(026,'2023-09-01'),(027,'2023-08-02')
 
 
@@ -45,6 +104,20 @@ create table timetable
 timeid int primary key,
 timesavailable time
 )
+
+ALTER TABLE  timetable ADD IsDeletedtime BIT NOT NULL DEFAULT 0;
+
+ select * from  timetable
+
+  create trigger SoftDelete6 ON  timetable
+  instead of delete
+  as begin
+  set nocount on;
+  update  timetable
+  set IsDeletedtime= 1
+  WHERE timeid IN (SELECT timeid  FROM deleted);
+  END
+
 
 INSERT INTO timetable (timeid, timesavailable)
 VALUES
@@ -60,7 +133,8 @@ VALUES
 create table eventnames
 (
 eventid int references  eventstable(eventsid),
-eventnameid int,
+eventnameid int primary key,
+TUserid int references UserTables(TUserid),
 eventdate int references datetable(dateid),
 eventtime int references timetable(timeid),
 eventhallcapacity bigint,
@@ -69,6 +143,11 @@ eventlocation int references locationtable(locationid),
 eventtheme int references themetable(themeid),
 eventcost bigint,
 )
+drop table eventnames
+
+--alter table eventnames add eventnameid int not null default 0
+--alter table eventnames add  primary key(eventnameid) 
+
 
 INSERT INTO eventnames VALUES (101,81,021,021,1000,0,001,011,3000)
   
@@ -102,6 +181,8 @@ create table UserTables
   TRoleid int references RoleTables(TRoleid)
 )
 
+alter table UserTables add Tprofile varbinary(max)
+
 insert into UserTables values(11,'Pallavi','Pallavi@123','Pallavi@gmail.com',6382340717,'2023-09-04 14:30:00',1),(12,'Harita','Harita@123','Harita@gmail.com',6382340515,'2023-09-04 14:30:00',2)
 
 
@@ -111,6 +192,7 @@ select * from timetable
 select * from datetable
 select * from  eventstable
 select * from  themetable
+
 select * from  RoleTables
 select * from  UserTables
 
