@@ -192,10 +192,10 @@ select * from timetable
 select * from datetable
 select * from  eventstable
 select * from  themetable
-
 select * from  RoleTables
 select * from  UserTables
 
+update  UserTables set TRoleid = 1 where TUserid = 11
 
 CREATE  PROCEDURE [dbo].[Validate_User]
 	@Username NVARCHAR(20),
