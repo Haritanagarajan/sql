@@ -195,6 +195,7 @@ eventd bit not null default 0
 )
 
 select * from EventNames
+select * from EventNames
 
 insert into EventNames values(1,'BirthdayParty',00,0)
 
@@ -246,10 +247,133 @@ babyshowereventcost bigint ,
 babyshowerbeverages bit not null default 0
 )
 
+create table BachelorParty(
+id int primary key,
+bacheloruserid int references Usertable(TUserid),
+bachelorid int references EventNames(eventid),
+bachelordecorations int references decorationtable(decorid),
+bachelortheme int references themetable(themeid),
+bachelorchairs int,
+bachelortables int,
+bachelorhallcapacity int,
+bachelordate int references datetable(dateid),
+bachelortime int references timetable(timeid),
+bachelorcakes int references caketable(cakeid),
+bachelorlocation  int references locationtable(locationid),
+bacheloreventcost bigint ,
+bachelorbeverages bit not null default 0
+)
 
+create table Wedding(
+id int primary key,
+weddinguserid int references Usertable(TUserid),
+weddingid int references EventNames(eventid),
+weddingdecorations int references decorationtable(decorid),
+weddingtheme int references themetable(themeid),
+weddingchairs int,
+weddingtables int,
+weddinghallcapacity int,
+weddingdate int references datetable(dateid),
+weddingtime int references timetable(timeid),
+weddingcakes int references caketable(cakeid),
+weddinglocation  int references locationtable(locationid),
+weddingeventcost bigint ,
+weddingbeverages bit not null default 0,
+weddingPhotography bit  not null default 0,
+weddingStyling bit  not null default 0,
+weddingHospitality bit  not null default 0,
+)
+
+
+
+create table Anniversary(
+id int primary key,
+anniuserid int references Usertable(TUserid),
+anniid int references EventNames(eventid),
+annidecorations int references decorationtable(decorid),
+annitheme int references themetable(themeid),
+annichairs int,
+annitables int,
+annihallcapacity int,
+annidate int references datetable(dateid),
+annitime int references timetable(timeid),
+annicakes int references caketable(cakeid),
+annilocation  int references locationtable(locationid),
+annieventcost bigint ,
+annibeverages bit not null default 0,
+anniPhotography bit  not null default 0,
+anniStyling bit  not null default 0,
+anniHospitality bit  not null default 0,
+)
+
+
+
+create table Reunion(
+id int primary key,
+reunionuserid int references Usertable(TUserid),
+reunionid int references EventNames(eventid),
+reuniondecorations int references decorationtable(decorid),
+reuniontheme int references themetable(themeid),
+reunionchairs int,
+reuniontables int,
+reunionhallcapacity int,
+reuniondate int references datetable(dateid),
+reuniontime int references timetable(timeid),
+reunioncakes int references caketable(cakeid),
+reunionlocation  int references locationtable(locationid),
+reunioneventcost bigint ,
+reunionbeverages bit not null default 0,
+reunionPhotography bit  not null default 0,
+reunionStyling bit  not null default 0,
+reunionHospitality bit  not null default 0,
+)
+
+
+
+--added
+
+create table CocktailParty(
+id int primary key,
+cockuserid int references Usertable(TUserid),
+cockid int references EventNames(eventid),
+cockdecorations int references decorationtable(decorid),
+cocktheme int references themetable(themeid),
+cockchairs int,
+cocktables int,
+cockhallcapacity int,
+cockdate int references datetable(dateid),
+cocktime int references timetable(timeid),
+cockcakes int references caketable(cakeid),
+cocklocation  int references locationtable(locationid),
+cockeventcost bigint ,
+cockbeverages bit not null default 0,
+)
 
 delete from birthdaytable where id = 1
 delete from birthdaytable where id = 2
+
+
+create table AddtoCart(
+id int primary key,
+cartbday int references birthdaytable(id),
+cartbaby int references babyshowertable(id),
+cartbachelor int references BachelorParty(id),
+cartwedding int references Wedding(id),
+cartanni int references Anniversary(id),
+cartreunion int references Reunion(id),
+cartcocktail int references CocktailParty(id)
+)
+
+
+select * from CocktailParty
+select * from birthdaytable
+select * from BachelorParty
+select * from Wedding
+select * from Anniversary
+select * from babyshowertable
+select * from Reunion
+
+
 
 
 
