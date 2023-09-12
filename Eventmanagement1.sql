@@ -372,6 +372,7 @@ select * from Wedding
 select * from Anniversary
 select * from babyshowertable
 select * from Reunion
+select * from caketable
 
 
 
