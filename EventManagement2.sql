@@ -9,9 +9,10 @@ create table Roletable
   TRoleimage varbinary(max)
 )
 
+
 drop table Roletable
 
-drop table Usertable
+
 
 insert into Roletable values(1,'Admin',0),(2,'User',0)
 
@@ -112,45 +113,45 @@ create trigger SoftDelete2 ON  locationtable
   END
 
 
-create table  datetable
-(
-dateid int primary key,
-datesavailable date,
-dated bit not null default 0
-)
+--create table  datetable
+--(
+--dateid int primary key,
+--datesavailable date,
+--dated bit not null default 0
+--)
 
-insert into datetable values(1,'2023-10-12',00)
-insert into datetable values(2,'2023-10-02',00)
-
-
-create trigger SoftDelete3 ON  datetable
-  instead of delete
-  as begin
-  set nocount on;
-  update  datetable
-  set  dated= 1
-  WHERE dateid IN (SELECT dateid  FROM deleted);
-  END
+--insert into datetable values(1,'2023-10-12',00)
+--insert into datetable values(2,'2023-10-02',00)
 
 
-create table timetable
-(
-timeid int primary key,
-timesavailable time,
-timed bit not null default 0
-)
-insert into timetable values(1,'12:00',00)
-insert into timetable values(2,'11:00',00)
+--create trigger SoftDelete3 ON  datetable
+--  instead of delete
+--  as begin
+--  set nocount on;
+--  update  datetable
+--  set  dated= 1
+--  WHERE dateid IN (SELECT dateid  FROM deleted);
+--  END
 
 
-create trigger SoftDelete4 ON  timetable
-  instead of delete
-  as begin
-  set nocount on;
-  update  timetable
-  set  timed= 1
-  WHERE timeid IN (SELECT timeid  FROM deleted);
-  END
+--create table timetable
+--(
+--timeid int primary key,
+--timesavailable time,
+--timed bit not null default 0
+--)
+--insert into timetable values(1,'12:00',00)
+--insert into timetable values(2,'11:00',00)
+
+
+--create trigger SoftDelete4 ON  timetable
+--  instead of delete
+--  as begin
+--  set nocount on;
+--  update  timetable
+--  set  timed= 1
+--  WHERE timeid IN (SELECT timeid  FROM deleted);
+--  END
 
 
 create table caketable
@@ -208,6 +209,8 @@ select * from EventNames
 
 insert into EventNames values(1,'BirthdayParty',00,0,1)
 
+drop table babyshowertable
+
 
 create trigger SoftDeleteevent ON  EventNames
   instead of delete
@@ -228,8 +231,8 @@ bdaytheme int references themetable(themeid),
 bdaychairs int,
 bdaytables int,
 bdayhallcapacity int,
-bdaydate int  references datetable(dateid),
-bdaytime int unique references timetable(timeid),
+bdaydatetime datetime,
+bdaytime time,
 bdaycakes int references caketable(cakeid),
 bdaylocation  int references locationtable(locationid),
 bdayeventcost bigint ,
@@ -255,8 +258,8 @@ babyshowertheme int references themetable(themeid),
 babyshowerchairs int,
 babyshowertables int,
 babyshowerhallcapacity int,
-babyshowerdate int references datetable(dateid),
-babyshowertime int unique references timetable(timeid),
+babyshowerdatetime datetime,
+babyshowertime time,
 babyshowercakes int references caketable(cakeid),
 babyshowerlocation  int references locationtable(locationid),
 babyshowereventcost bigint ,
@@ -273,8 +276,8 @@ bachelortheme int references themetable(themeid),
 bachelorchairs int,
 bachelortables int,
 bachelorhallcapacity int,
-bachelordate int references datetable(dateid),
-bachelortime int unique references timetable(timeid),
+bachelordatetime datetime,
+bachelortime time,
 bachelorcakes int references caketable(cakeid),
 bachelorlocation  int references locationtable(locationid),
 bacheloreventcost bigint ,
@@ -291,8 +294,8 @@ weddingtheme int references themetable(themeid),
 weddingchairs int,
 weddingtables int,
 weddinghallcapacity int,
-weddingdate int references datetable(dateid),
-weddingtime int unique references timetable(timeid),
+weddingdatetime datetime,
+weddingtime time,
 weddingcakes int references caketable(cakeid),
 weddinglocation  int references locationtable(locationid),
 weddingeventcost bigint ,
@@ -313,8 +316,8 @@ annitheme int references themetable(themeid),
 annichairs int,
 annitables int,
 annihallcapacity int,
-annidate int references datetable(dateid),
-annitime int unique references timetable(timeid),
+annidatetime datetime,
+annitime time,
 annicakes int references caketable(cakeid),
 annilocation  int references locationtable(locationid),
 annieventcost bigint ,
@@ -335,8 +338,8 @@ reuniontheme int references themetable(themeid),
 reunionchairs int,
 reuniontables int,
 reunionhallcapacity int,
-reuniondate int references datetable(dateid),
-reuniontime int unique references timetable(timeid),
+reuniondatetime datetime,
+reuniontime time,
 reunioncakes int references caketable(cakeid),
 reunionlocation  int references locationtable(locationid),
 reunioneventcost bigint ,
@@ -359,8 +362,8 @@ cocktheme int references themetable(themeid),
 cockchairs int,
 cocktables int,
 cockhallcapacity int,
-cockdate int references datetable(dateid),
-cocktime int unique references timetable(timeid),
+cockdatetime datetime,
+cocktime time,
 cockcakes int references caketable(cakeid),
 cocklocation  int references locationtable(locationid),
 cockeventcost bigint ,
@@ -386,28 +389,17 @@ select * from birthdaytable
 select * from Wedding
 select * from Anniversary
 select * from Reunion
-select * from caketable
-select * from EventNames
-
-select * from Usertable
+select * from BachelorParty
 select * from babyshowertable
-select * from 
 
 delete from birthdaytable where id = 2
 delete from Anniversary where id = 2
 delete from Wedding where id = 2
 
+select * from datetable
+select * from  timetable
 
-
-
-
-
-
-
-
-
-
-
+select * from decorationtable
 
 
 
@@ -423,3 +415,136 @@ ADD Gender NVARCHAR(10); -- You can adjust the length as needed
 -- Add a constraint to limit the allowed values to 'Female', 'Male', or 'Other'
 ALTER TABLE Employees
 ADD CONSTRAINT CHK_Gender CHECK (Gender IN ('Female', 'Male', 'Other'));
+
+
+
+CREATE PROCEDURE ReserveDateTime
+    @chosenDate DATE,
+    @chosenTime TIME
+AS
+BEGIN
+    DECLARE @dateid INT
+    DECLARE @timeid INT
+
+    -- Get the dateid for the chosen date
+    SELECT @dateid = dateid FROM datetable WHERE datesavailable = @chosenDate
+
+    -- Get the timeid for the chosen time
+    SELECT @timeid = timeid FROM timetable WHERE timesavailable = @chosenTime
+
+    -- Check if both date and time are available
+    IF @dateid IS NOT NULL AND @timeid IS NOT NULL
+    BEGIN
+        -- Check if the date and time are not already blocked
+        IF (SELECT dated FROM datetable WHERE dateid = @dateid) = 0
+           AND (SELECT timed FROM timetable WHERE timeid = @timeid) = 0
+        BEGIN
+            -- Block the date and time
+            UPDATE datetable SET dated = 1 WHERE dateid = @dateid
+            UPDATE timetable SET timed = 1 WHERE timeid = @timeid
+            PRINT 'Reservation successful!'
+        END
+        ELSE
+        BEGIN
+            PRINT 'Date and time are already blocked.'
+        END
+    END
+    ELSE
+    BEGIN
+        PRINT 'Invalid date and time.'
+    END
+END
+
+
+
+
+CREATE TRIGGER ReserveDateTimeTrigger
+ON timetable
+AFTER INSERT
+AS
+BEGIN
+    DECLARE @chosenDate DATE
+    DECLARE @chosenTime TIME
+
+    -- Get the chosen date and time from the inserted row
+    SELECT @chosenDate = inserted.datesavailable, @chosenTime = inserted.timesavailable
+    FROM inserted
+
+    -- Call the stored procedure to handle the reservation
+    EXEC ReserveDateTime @chosenDate, @chosenTime
+END
+
+
+
+CREATE PROCEDURE InsertCocktailParty
+    @cockuserId INT,
+    @cockId INT,
+    @cockDecorations INT,
+    @cockTheme INT,
+    @cockChairs INT,
+    @cockTables INT,
+    @cockHallCapacity INT,
+    @cockDate INT,
+    @cockTime INT,
+    @cockCakes INT,
+    @cockLocation INT,
+    @cockEventCost BIGINT,
+    @cockBeverages BIT
+AS
+BEGIN
+    DECLARE @dateAvailable BIT
+    DECLARE @timeAvailable BIT
+
+    -- Check if the selected date is available
+    SELECT @dateAvailable = dated FROM datetable WHERE dateid = @cockDate
+
+    -- Check if the selected time is available
+    SELECT @timeAvailable = timed FROM timetable WHERE timeid = @cockTime
+
+    -- If both date and time are available, insert into CocktailParty
+    IF @dateAvailable = 0 AND @timeAvailable = 0
+    BEGIN
+        INSERT INTO CocktailParty (
+            cockuserid, 
+            cockid, 
+            cockdecorations, 
+            cocktheme, 
+            cockchairs, 
+            cocktables, 
+            cockhallcapacity, 
+            cockdate, 
+            cocktime, 
+            cockcakes, 
+            cocklocation, 
+            cockeventcost, 
+            cockbeverages
+        )
+        VALUES (
+            @cockuserId, 
+            @cockId, 
+            @cockDecorations, 
+            @cockTheme, 
+            @cockChairs, 
+            @cockTables, 
+            @cockHallCapacity, 
+            @cockDate, 
+            @cockTime, 
+            @cockCakes, 
+            @cockLocation, 
+            @cockEventCost, 
+            @cockBeverages
+        )
+
+        -- Update the datetable and timetable to mark the date and time as reserved
+        UPDATE datetable SET dated = 1 WHERE dateid = @cockDate
+        UPDATE timetable SET timed = 1 WHERE timeid = @cockTime
+
+        PRINT 'Cocktail party reservation successful!'
+    END
+    ELSE
+    BEGIN
+        PRINT 'Selected date and time are not available.'
+    END
+END
+
+
