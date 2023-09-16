@@ -238,6 +238,7 @@ bdaylocation  int references locationtable(locationid),
 bdayeventcost bigint ,
 bdaybeverages bit not null default 0
 )
+alter table birthdaytable drop column bdaytime
 
 delete from birthdaytable where id = 3
 delete from birthdaytable where id = 2
@@ -265,6 +266,7 @@ babyshowerlocation  int references locationtable(locationid),
 babyshowereventcost bigint ,
 babyshowerbeverages bit not null default 0
 )
+alter table babyshowertable drop column babyshowertime
 
 
 create table BachelorParty(
@@ -283,6 +285,7 @@ bachelorlocation  int references locationtable(locationid),
 bacheloreventcost bigint ,
 bachelorbeverages bit not null default 0
 )
+alter table BachelorParty drop column bachelortime
 
 
 create table Wedding(
@@ -305,6 +308,7 @@ weddingStyling bit  not null default 0,
 weddingHospitality bit  not null default 0,
 )
 
+alter table Wedding drop column weddingtime
 
 
 create table Anniversary(
@@ -327,6 +331,7 @@ anniStyling bit  not null default 0,
 anniHospitality bit  not null default 0,
 )
 
+alter table Anniversary drop column annitime
 
 
 create table Reunion(
@@ -349,6 +354,7 @@ reunionStyling bit  not null default 0,
 reunionHospitality bit  not null default 0,
 )
 
+alter table Reunion drop column reuniontime
 
 
 --added
@@ -370,7 +376,7 @@ cockeventcost bigint ,
 cockbeverages bit not null default 0,
 )
 
-
+alter table CocktailParty drop column cocktime
 
 create table AddtoCart(
 id int primary key,
@@ -394,7 +400,7 @@ select * from babyshowertable
 
 delete from birthdaytable where id = 2
 delete from Anniversary where id = 2
-delete from Wedding where id = 2
+
 
 select * from datetable
 select * from  timetable
@@ -416,135 +422,5 @@ ADD Gender NVARCHAR(10); -- You can adjust the length as needed
 ALTER TABLE Employees
 ADD CONSTRAINT CHK_Gender CHECK (Gender IN ('Female', 'Male', 'Other'));
 
-
-
-CREATE PROCEDURE ReserveDateTime
-    @chosenDate DATE,
-    @chosenTime TIME
-AS
-BEGIN
-    DECLARE @dateid INT
-    DECLARE @timeid INT
-
-    -- Get the dateid for the chosen date
-    SELECT @dateid = dateid FROM datetable WHERE datesavailable = @chosenDate
-
-    -- Get the timeid for the chosen time
-    SELECT @timeid = timeid FROM timetable WHERE timesavailable = @chosenTime
-
-    -- Check if both date and time are available
-    IF @dateid IS NOT NULL AND @timeid IS NOT NULL
-    BEGIN
-        -- Check if the date and time are not already blocked
-        IF (SELECT dated FROM datetable WHERE dateid = @dateid) = 0
-           AND (SELECT timed FROM timetable WHERE timeid = @timeid) = 0
-        BEGIN
-            -- Block the date and time
-            UPDATE datetable SET dated = 1 WHERE dateid = @dateid
-            UPDATE timetable SET timed = 1 WHERE timeid = @timeid
-            PRINT 'Reservation successful!'
-        END
-        ELSE
-        BEGIN
-            PRINT 'Date and time are already blocked.'
-        END
-    END
-    ELSE
-    BEGIN
-        PRINT 'Invalid date and time.'
-    END
-END
-
-
-
-
-CREATE TRIGGER ReserveDateTimeTrigger
-ON timetable
-AFTER INSERT
-AS
-BEGIN
-    DECLARE @chosenDate DATE
-    DECLARE @chosenTime TIME
-
-    -- Get the chosen date and time from the inserted row
-    SELECT @chosenDate = inserted.datesavailable, @chosenTime = inserted.timesavailable
-    FROM inserted
-
-    -- Call the stored procedure to handle the reservation
-    EXEC ReserveDateTime @chosenDate, @chosenTime
-END
-
-
-
-CREATE PROCEDURE InsertCocktailParty
-    @cockuserId INT,
-    @cockId INT,
-    @cockDecorations INT,
-    @cockTheme INT,
-    @cockChairs INT,
-    @cockTables INT,
-    @cockHallCapacity INT,
-    @cockDate INT,
-    @cockTime INT,
-    @cockCakes INT,
-    @cockLocation INT,
-    @cockEventCost BIGINT,
-    @cockBeverages BIT
-AS
-BEGIN
-    DECLARE @dateAvailable BIT
-    DECLARE @timeAvailable BIT
-
-    -- Check if the selected date is available
-    SELECT @dateAvailable = dated FROM datetable WHERE dateid = @cockDate
-
-    -- Check if the selected time is available
-    SELECT @timeAvailable = timed FROM timetable WHERE timeid = @cockTime
-
-    -- If both date and time are available, insert into CocktailParty
-    IF @dateAvailable = 0 AND @timeAvailable = 0
-    BEGIN
-        INSERT INTO CocktailParty (
-            cockuserid, 
-            cockid, 
-            cockdecorations, 
-            cocktheme, 
-            cockchairs, 
-            cocktables, 
-            cockhallcapacity, 
-            cockdate, 
-            cocktime, 
-            cockcakes, 
-            cocklocation, 
-            cockeventcost, 
-            cockbeverages
-        )
-        VALUES (
-            @cockuserId, 
-            @cockId, 
-            @cockDecorations, 
-            @cockTheme, 
-            @cockChairs, 
-            @cockTables, 
-            @cockHallCapacity, 
-            @cockDate, 
-            @cockTime, 
-            @cockCakes, 
-            @cockLocation, 
-            @cockEventCost, 
-            @cockBeverages
-        )
-
-        -- Update the datetable and timetable to mark the date and time as reserved
-        UPDATE datetable SET dated = 1 WHERE dateid = @cockDate
-        UPDATE timetable SET timed = 1 WHERE timeid = @cockTime
-
-        PRINT 'Cocktail party reservation successful!'
-    END
-    ELSE
-    BEGIN
-        PRINT 'Selected date and time are not available.'
-    END
-END
 
 
