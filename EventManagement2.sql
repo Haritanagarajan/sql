@@ -399,7 +399,7 @@ select * from BachelorParty
 select * from babyshowertable
 
 delete from birthdaytable where id = 2
-delete from Anniversary where id = 2
+delete from Wedding where id = 1
 
 
 select * from datetable
