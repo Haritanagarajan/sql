@@ -397,21 +397,17 @@ select * from Anniversary
 select * from Reunion
 select * from BachelorParty
 select * from babyshowertable
+select * from decorationtable
 
 delete from birthdaytable where id = 2
-delete from Wedding where id = 1
+delete from Anniversary where id = 1
 
+select * from AddtoCart
 
 select * from datetable
 select * from  timetable
 
 select * from decorationtable
-
-
-
-
-
-
 
 
 
@@ -424,3 +420,16 @@ ADD CONSTRAINT CHK_Gender CHECK (Gender IN ('Female', 'Male', 'Other'));
 
 
 
+create table  feedbacktable
+(
+id int primary key,
+UserId int,
+Experiencetype varchar(40),
+Comments varchar(800),
+UserName varchar(40),
+Useremail varchar(50)
+)
+
+insert into feedbacktable values(1,2,'Good','super','Harita','30harita2002@gmail.com')
+
+select * from feedbacktable
