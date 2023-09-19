@@ -400,7 +400,7 @@ select * from babyshowertable
 select * from decorationtable
 
 delete from birthdaytable where id = 2
-delete from Anniversary where id = 1
+delete from Anniversary where id = 2
 
 select * from AddtoCart
 
@@ -433,3 +433,23 @@ Useremail varchar(50)
 insert into feedbacktable values(1,2,'Good','super','Harita','30harita2002@gmail.com')
 
 select * from feedbacktable
+
+
+create table FinalPaymentReceived(
+id int identity(1,1) primary key ,
+userid int references Usertable(TUserid),
+username varchar(60),
+usercontact varchar(30),
+usermail varchar(30),
+razorpayid varchar(60),
+bookingdatetime datetime,
+paymentdatetime datetime,
+totalcost int,
+partialamount int,
+eventid int,
+ispaid bit not null default 0
+)
+
+select * from FinalPaymentReceived
+
+drop table FinalPaymentReceived
