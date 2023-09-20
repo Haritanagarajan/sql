@@ -422,7 +422,7 @@ ADD CONSTRAINT CHK_Gender CHECK (Gender IN ('Female', 'Male', 'Other'));
 
 create table  feedbacktable
 (
-id int primary key,
+id int identity(1,1) primary key,
 UserId int,
 Experiencetype varchar(40),
 Comments varchar(800),
@@ -430,7 +430,11 @@ UserName varchar(40),
 Useremail varchar(50)
 )
 
-insert into feedbacktable values(1,2,'Good','super','Harita','30harita2002@gmail.com')
+
+drop table feedbacktable
+
+
+insert into feedbacktable values(2,'Good','super','Harita','30harita2002@gmail.com')
 
 select * from feedbacktable
 
@@ -449,6 +453,8 @@ partialamount int,
 eventid int,
 ispaid bit not null default 0
 )
+
+delete from FinalPaymentReceived where id = 4
 
 select * from FinalPaymentReceived
 
