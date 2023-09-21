@@ -33,6 +33,15 @@ create table Usertable
   TRoleid int references Roletable(TRoleid)
 )
 
+
+create trigger EncryptPassword on Usertableafter insertas beginupdate Usertable set TPassword = ENCRYPTBYPASSPHRASE('EventManagement',inserted.TPassword) from inserted where Usertable.TUserid=inserted.TUseridend;
+update Usertable set TEmail ='30harita2002@gmail.com' where TUserid = 2
+
+alter table Usertable alter column TPassword varchar(200)
+
+update Usertable set TPassword=ENCRYPTBYPASSPHRASE('EventManagement',TPassword) where TUserid>0
+
+
 alter TABLE Usertable
 ADD CONSTRAINT CHK_Gender CHECK (TGender IN ('Female', 'Male', 'Other'));
 
@@ -41,7 +50,7 @@ select * from Usertable
 insert into Usertable values(1,'Pallavi','Pallavi@gmail.com','Pallavi@123','Pallavi@123',6382830515,'Female',21,'2002-03-30','2022-04-22 10:34:53.44',0,1)
 
 
-CREATE  PROCEDURE [dbo].[Validate_User1]
+ALTER  PROCEDURE [dbo].[Validate_User]
 	@Username NVARCHAR(20),
 	@Password NVARCHAR(20)
 AS
@@ -50,7 +59,7 @@ BEGIN
 	DECLARE @UserId INT, @LastLoginDate DATETIME, @RoleId INT
 	
 	SELECT @UserId = TUserid, @LastLoginDate = LastLoginDate, @RoleId = TRoleid 
-	FROM Usertable WHERE TUsername = @Username AND [TPassword] = @Password
+	FROM Usertable WHERE TUsername = @Username AND Convert(varchar(200),DECRYPTBYPASSPHRASE('EventManagement',Usertable.TPassword)) = @Password
 	
 	IF @UserId IS NOT NULL
 	BEGIN
@@ -389,6 +398,7 @@ cartreunion int references Reunion(id),
 cartcocktail int references CocktailParty(id)
 )
 
+drop table AddtoCart
 
 select * from CocktailParty
 select * from birthdaytable
@@ -454,8 +464,14 @@ eventid int,
 ispaid bit not null default 0
 )
 
+delete from  Wedding where id =1 
+
+truncate table FinalPaymentReceived
+
 delete from FinalPaymentReceived where id = 4
 
 select * from FinalPaymentReceived
 
 drop table FinalPaymentReceived
+
+
