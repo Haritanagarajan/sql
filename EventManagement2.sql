@@ -34,12 +34,23 @@ create table Usertable
 )
 
 
-create trigger EncryptPassword on Usertableafter insertas beginupdate Usertable set TPassword = ENCRYPTBYPASSPHRASE('EventManagement',inserted.TPassword) from inserted where Usertable.TUserid=inserted.TUseridend;
+alter trigger EncryptPassword on Usertable
+after insert
+as begin
+update Usertable set TPassword = ENCRYPTBYPASSPHRASE('EventManagement',inserted.TPassword) from inserted where Usertable.TUserid=inserted.TUserid
+update Usertable set TConfirmPassword = ENCRYPTBYPASSPHRASE('EventManagement',inserted.TConfirmPassword) from inserted where Usertable.TUserid=inserted.TUserid
+end;
+
+
+
+
 update Usertable set TEmail ='30harita2002@gmail.com' where TUserid = 2
 
 alter table Usertable alter column TPassword varchar(200)
+alter table Usertable alter column TConfirmPassword varchar(200)
 
 update Usertable set TPassword=ENCRYPTBYPASSPHRASE('EventManagement',TPassword) where TUserid>0
+update Usertable set TConfirmPassword=ENCRYPTBYPASSPHRASE('EventManagement',TConfirmPassword) where TUserid>0
 
 
 alter TABLE Usertable
@@ -48,6 +59,9 @@ ADD CONSTRAINT CHK_Gender CHECK (TGender IN ('Female', 'Male', 'Other'));
 select * from Usertable
 
 insert into Usertable values(1,'Pallavi','Pallavi@gmail.com','Pallavi@123','Pallavi@123',6382830515,'Female',21,'2002-03-30','2022-04-22 10:34:53.44',0,1)
+
+
+
 
 
 ALTER  PROCEDURE [dbo].[Validate_User]
@@ -453,7 +467,7 @@ create table FinalPaymentReceived(
 id int identity(1,1) primary key ,
 userid int references Usertable(TUserid),
 username varchar(60),
-usercontact varchar(30),
+usercontact bigint,
 usermail varchar(30),
 razorpayid varchar(60),
 bookingdatetime datetime,
@@ -464,14 +478,83 @@ eventid int,
 ispaid bit not null default 0
 )
 
+
+
 delete from  Wedding where id =1 
 
 truncate table FinalPaymentReceived
 
-delete from FinalPaymentReceived where id = 4
+delete from FinalPaymentReceived where id = 8
 
 select * from FinalPaymentReceived
 
 drop table FinalPaymentReceived
 
 
+--CREATE or ALTER  TRIGGER DeleteCart_FinalPayment_Received
+--ON FinalPaymentReceived
+--AFTER INSERT
+-- AS  
+--BEGIN
+--    DELETE from  birthdaytable
+--    WHERE bdayuserid in (select userid from inserted);
+
+--    DELETE from babyshowertable
+--    WHERE babyshoweruserid in (select userid from inserted);
+
+--    DELETE from Wedding 
+--    WHERE weddinguserid in (select userid from inserted);
+
+--    DELETE Anniversary
+--    WHERE anniuserid in (select userid from inserted);
+
+--    DELETE  Reunion
+--    WHERE  reunionuserid in (select userid from inserted);
+
+--    DELETE BachelorParty
+--    WHERE bacheloruserid in (select userid from inserted);
+
+--    DELETE FROM CocktailParty
+--    WHERE cockuserid in (select userid from inserted);
+--END;
+
+select * from Usertable
+
+
+
+
+
+CREATE  OR ALTER TRIGGER DeleteCart_FinalPayment_Received
+ON FinalPaymentReceived
+AFTER INSERT
+AS
+BEGIN
+    
+    DELETE FROM birthdaytable
+    WHERE bdayuserid IN (SELECT userid FROM inserted)
+    AND bdaydatetime <= GETDATE();
+
+    DELETE FROM babyshowertable
+    WHERE babyshoweruserid IN (SELECT userid FROM inserted)
+    AND babyshowerdatetime >= GETDATE();
+
+    DELETE FROM Wedding
+    WHERE weddinguserid IN (SELECT userid FROM inserted)
+    AND weddingdatetime >= GETDATE();
+
+    DELETE FROM Anniversary
+    WHERE anniuserid IN (SELECT userid FROM inserted)
+    AND annidatetime >= GETDATE();
+
+    DELETE FROM Reunion
+    WHERE reunionuserid IN (SELECT userid FROM inserted)
+    AND reuniondatetime >= GETDATE();
+
+    DELETE FROM BachelorParty
+    WHERE bacheloruserid IN (SELECT userid FROM inserted)
+    AND bachelordatetime >= GETDATE();
+
+    DELETE FROM CocktailParty
+    WHERE cockuserid IN (SELECT userid FROM inserted)
+    AND cockdatetime >= GETDATE();
+END;
