@@ -536,25 +536,25 @@ BEGIN
 
     DELETE FROM babyshowertable
     WHERE babyshoweruserid IN (SELECT userid FROM inserted)
-    AND babyshowerdatetime >= GETDATE();
+    AND babyshowerdatetime <= GETDATE();
 
     DELETE FROM Wedding
     WHERE weddinguserid IN (SELECT userid FROM inserted)
-    AND weddingdatetime >= GETDATE();
+    AND weddingdatetime <= GETDATE();
 
     DELETE FROM Anniversary
     WHERE anniuserid IN (SELECT userid FROM inserted)
-    AND annidatetime >= GETDATE();
+    AND annidatetime <= GETDATE();
 
     DELETE FROM Reunion
     WHERE reunionuserid IN (SELECT userid FROM inserted)
-    AND reuniondatetime >= GETDATE();
+    AND reuniondatetime <= GETDATE();
 
     DELETE FROM BachelorParty
     WHERE bacheloruserid IN (SELECT userid FROM inserted)
-    AND bachelordatetime >= GETDATE();
+    AND bachelordatetime <= GETDATE();
 
     DELETE FROM CocktailParty
     WHERE cockuserid IN (SELECT userid FROM inserted)
-    AND cockdatetime >= GETDATE();
+    AND cockdatetime <= GETDATE();
 END;
