@@ -61,7 +61,7 @@ select * from Usertable
 insert into Usertable values(1,'Pallavi','Pallavi@gmail.com','Pallavi@123','Pallavi@123',6382830515,'Female',21,'2002-03-30','2022-04-22 10:34:53.44',0,1)
 
 
-
+select * from locationtable
 
 
 ALTER  PROCEDURE [dbo].[Validate_User]
@@ -484,9 +484,9 @@ delete from  Wedding where id =1
 
 truncate table FinalPaymentReceived
 
-delete from FinalPaymentReceived where id = 8
+delete from birthdaytable where id = 2
 
-select * from FinalPaymentReceived
+select * from birthdaytable
 
 drop table FinalPaymentReceived
 
@@ -558,3 +558,6 @@ BEGIN
     WHERE cockuserid IN (SELECT userid FROM inserted)
     AND cockdatetime <= GETDATE();
 END;
+
+
+
