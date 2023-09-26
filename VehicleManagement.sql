@@ -10,6 +10,8 @@ create table VRoles
   VRolename varchar(20),
 )
 
+select * from VRoles
+
 insert into VRoles values(1,'Owner'),(2,'Customer')
 
 
@@ -76,7 +78,7 @@ BEGIN
 	END
 END
 
-----------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 
 
 CREATE TABLE CarBrand
@@ -139,6 +141,7 @@ Servicecost smallmoney
 )
 
 select * from CarServices
+
 insert into CarServices values(11,'Basic Service','1000 kms or 1 Month Wrranty','WiperFluid Replacement','Car Wash','Engine Oil Replacement','Battery Water Top Up',4,2000)
 insert into CarServices values(11,'Standard Service','1000 kms or 1 Month Wrranty','Car Scanning','Interior Vaccuming(Carpet & Seats)','Car Wash','Battery Water Top Up',6,2500)
 insert into CarServices values(11,'Comprehensive Service','1000 kms or 1 Month Wrranty','Car Scanning','AC Filter Replacement','Fuel Filter Checking','Battery Water Top Up',8,3500)
