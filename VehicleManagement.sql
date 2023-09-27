@@ -31,6 +31,8 @@ create table VUsers
 
 
 
+
+
 Create trigger EncryptionPassword on VUsers
 after insert
 as begin
