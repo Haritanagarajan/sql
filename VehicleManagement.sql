@@ -49,7 +49,7 @@ select * from VUsers
 
 insert into VUsers values ('Harita','30harita2002@gmail.com','Harita@123','Harita@123',6382830515,'2023-09-26','2023-09-26 00:00:00',2)
 
-
+exec Validate_Users 'Harita','Harita@123'
 
 CREATE OR ALTER  PROCEDURE [dbo].[Validate_Users]
 	@Username NVARCHAR(20),
