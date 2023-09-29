@@ -14,6 +14,7 @@ select * from VRoles
 
 insert into VRoles values(1,'Owner'),(2,'Customer')
 
+update VRoles set VRolename='Admin' where VRoleid = 1
 
 ---------------------------------------------------------------------
 create table VUsers
@@ -29,7 +30,7 @@ create table VUsers
   VRoleid int references VRoles(VRoleid)
 )
 
-
+update VUsers set VRoleid=1 where VUserid=11
 
 
 
@@ -48,6 +49,7 @@ update VUsers set VConfirmPassword=ENCRYPTBYPASSPHRASE('VehicleManagement',VConf
 select * from VUsers
 
 insert into VUsers values ('Harita','30harita2002@gmail.com','Harita@123','Harita@123',6382830515,'2023-09-26','2023-09-26 00:00:00',2)
+
 
 exec Validate_Users 'Harita','Harita@123'
 
@@ -90,9 +92,16 @@ BrandName varchar(60),
 BranndImage varbinary(max)
 )
 
+
 select * from CarBrand
 
-insert into CarBrand values('Maruthi Suzuki',0),('Hyundai',0),('Volkswagen',0),('Lamborghini',0)
+delete from CarBrand where Brandid = 1
+insert into CarBrand values('Maruthi Suzuki','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement\Files'),('Hyundai','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement'),('Volkswagen','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement'),('Lamborghini','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement')
+
+update table CarBrand alter column BranndImage varchar(max)
+
+update CarBrand set BranndImage='E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement\wwwroot\Assets' where Brandid = 7
+update CarBrand set BranndImage='E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement\wwwroot\Assets' where Brandid = 8
 
 
 ----------------------------------------------------------------------------------------
@@ -105,6 +114,8 @@ AddAmount smallmoney,
 CarImage varbinary(max)
 )
 
+alter table BrandCars alter column CarImage varchar(max)
+
 insert into BrandCars values(1,'Swift',3000,0),(1,'Swift Dezire',3500,0),(1,'Alto 800',2000,0),(1,'SX4',4000,0)
 
 insert into BrandCars values(2,'i20',4000,0),(2,'Verna',4500,0),(2,'Santro',2500,0),(2,'Sonota',4200,0)
@@ -113,7 +124,6 @@ insert into BrandCars values(3,'Polo',4200,0),(3,'Vento',4500,0),(3,'Jetta',2900
 
 insert into BrandCars values(4,'Tiago',3200,0),(4,'Nexon',4500,0),(4,'Indica',3000,0),(4,'Zest',4000,0)
 
-select * from BrandCars
 
 ------------------------------------------------------------------------------
 CREATE TABLE CarFuel
@@ -122,6 +132,9 @@ Fuelid int identity(1,1) primary key,
 FuelName varchar(60),
 FuelImage varbinary(max)
 )
+
+
+alter table CarFuel alter column FuelImage varchar(max)
 
 select * from CarFuel
 
