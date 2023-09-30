@@ -92,10 +92,10 @@ BrandName varchar(60),
 BranndImage varbinary(max)
 )
 
-
 select * from CarBrand
 
-delete from CarBrand where Brandid = 1
+delete from CarBrand where Brandid = 15
+
 insert into CarBrand values('Maruthi Suzuki','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement\Files'),('Hyundai','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement'),('Volkswagen','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement'),('Lamborghini','E:\ASP_CORE_REACT\VehicleManagement\VehicleManagement')
 
 update table CarBrand alter column BranndImage varchar(max)
