@@ -124,7 +124,7 @@ insert into BrandCars values(3,'Polo',4200,0),(3,'Vento',4500,0),(3,'Jetta',2900
 
 insert into BrandCars values(4,'Tiago',3200,0),(4,'Nexon',4500,0),(4,'Indica',3000,0),(4,'Zest',4000,0)
 
-
+select * from BrandCars
 ------------------------------------------------------------------------------
 CREATE TABLE CarFuel
 (
@@ -168,12 +168,18 @@ CREATE TABLE CarDetails
 (
 DetailsId int identity(1,1) primary key,
 VUserid int references VUsers(VUserid),
+VUserName varchar(max),
 Brandid int references CarBrand(Brandid),
+BrandImage varchar(max),
 Carid int references BrandCars(Carid),
+CarImage varchar(max),
 Fuelid int references CarFuel(Fuelid),
+FuelImage varchar(max),
 Serviceid int references CarServices(Serviceid),
 CreatedDate datetime,
 DueDate datetime
 )
+
+drop table CarDetails
 
 
