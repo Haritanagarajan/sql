@@ -92,6 +92,7 @@ BrandName varchar(60),
 BranndImage varbinary(max)
 )
 
+
 select * from CarBrand
 
 delete from CarBrand where Brandid = 15
