@@ -183,4 +183,6 @@ DueDate datetime
 
 drop table CarDetails
 
+delete from CarDetails   where DetailsId =14
 
+select * from  CarDetails
