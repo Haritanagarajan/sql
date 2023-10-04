@@ -183,6 +183,8 @@ DueDate datetime
 
 drop table CarDetails
 
-delete from CarDetails   where DetailsId =14
+delete from CarDetails   where DetailsId =26
 
 select * from  CarDetails
+
+alter table CarDetails  add  Email varchar(100)
