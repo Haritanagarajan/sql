@@ -183,7 +183,7 @@ DueDate datetime
 
 drop table CarDetails
 
-delete from CarDetails   where DetailsId =26
+delete from CarDetails   where DetailsId =39
 
 select * from  CarDetails
 
