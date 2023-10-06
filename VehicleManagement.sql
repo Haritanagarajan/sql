@@ -1,22 +1,23 @@
-
+--database
 create database VehicleManagement
+--to use
 use VehicleManagement
 
-
-
+--table
 create table VRoles
 (
   VRoleid int primary key,
   VRolename varchar(20),
 )
-
+--select
 select * from VRoles
-
+--insert values
 insert into VRoles values(1,'Owner'),(2,'Customer')
-
+--update
 update VRoles set VRolename='Admin' where VRoleid = 1
 
 ---------------------------------------------------------------------
+--create
 create table VUsers
 (
   VUserid int identity(1,1) primary key,
@@ -29,30 +30,26 @@ create table VUsers
   VLastLoginDate datetime,
   VRoleid int references VRoles(VRoleid)
 )
-
+--update
 update VUsers set VRoleid=1 where VUserid=11
 
-
-
+--trigger
 Create trigger EncryptionPassword on VUsers
 after insert
 as begin
 update VUsers set VPassword = ENCRYPTBYPASSPHRASE('VehicleManagement',inserted.VPassword) from inserted where VUsers.VUserid=inserted.VUserid
 update VUsers set VConfirmPassword = ENCRYPTBYPASSPHRASE('VehicleManagement',inserted.VConfirmPassword) from inserted where VUsers.VUserid=inserted.VUserid
 end;
-
-
+--update
 update VUsers set VPassword=ENCRYPTBYPASSPHRASE('VehicleManagement',VPassword) where VUserid>0
 update VUsers set VConfirmPassword=ENCRYPTBYPASSPHRASE('VehicleManagement',VConfirmPassword) where VUserid>0
-
-
+--select
 select * from VUsers
-
+--insert
 insert into VUsers values ('Harita','30harita2002@gmail.com','Harita@123','Harita@123',6382830515,'2023-09-26','2023-09-26 00:00:00',2)
-
-
+--procedure execute
 exec Validate_Users 'Harita','Harita@123'
-
+--procedure
 CREATE OR ALTER  PROCEDURE [dbo].[Validate_Users]
 	@Username NVARCHAR(20),
 	@Password NVARCHAR(20)
@@ -60,17 +57,14 @@ AS
 BEGIN
 	SET NOCOUNT ON;
 	DECLARE @UserId INT, @LastLoginDate DATETIME, @RoleId INT
-	
 	SELECT @UserId = VUserid, @LastLoginDate = VLastLoginDate, @RoleId = VRoleid 
 	FROM VUsers WHERE VUsername = @Username AND Convert(varchar(200),DECRYPTBYPASSPHRASE('VehicleManagement',VUsers.VPassword)) = @Password
-	
 	IF @UserId IS NOT NULL
 	BEGIN
 		BEGIN
 			UPDATE  VUsers
 			SET VLastLoginDate =  GETDATE()
 			WHERE VUserid = @UserId
-			
 			SELECT @UserId [VUserid], 
 					(SELECT  VRolename FROM VRoles
 					 WHERE VRoleid = @RoleId) [Roles] -- User Valid
@@ -183,8 +177,9 @@ DueDate datetime
 
 drop table CarDetails
 
-delete from CarDetails   where DetailsId =48
+delete from CarDetails   where DetailsId =57
 
 select * from  CarDetails
 
+truncate table CarDetails
 alter table CarDetails  add  Email varchar(100)

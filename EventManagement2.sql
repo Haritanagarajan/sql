@@ -424,7 +424,7 @@ select * from babyshowertable
 select * from decorationtable
 
 delete from birthdaytable where id = 2
-delete from Anniversary where id = 2
+delete from CocktailParty where id = 1
 
 select * from AddtoCart
 
@@ -488,7 +488,7 @@ delete from birthdaytable where id = 2
 
 select * from birthdaytable
 
-drop table FinalPaymentReceived
+select * from FinalPaymentReceived
 
 
 --CREATE or ALTER  TRIGGER DeleteCart_FinalPayment_Received
@@ -532,31 +532,31 @@ BEGIN
     
     DELETE FROM birthdaytable
     WHERE bdayuserid IN (SELECT userid FROM inserted)
-    AND bdaydatetime <= GETDATE();
+    --AND bdaydatetime <= GETDATE();
 
     DELETE FROM babyshowertable
     WHERE babyshoweruserid IN (SELECT userid FROM inserted)
-    AND babyshowerdatetime <= GETDATE();
+    --AND babyshowerdatetime <= GETDATE();
 
     DELETE FROM Wedding
     WHERE weddinguserid IN (SELECT userid FROM inserted)
-    AND weddingdatetime <= GETDATE();
+    --AND weddingdatetime <= GETDATE();
 
     DELETE FROM Anniversary
     WHERE anniuserid IN (SELECT userid FROM inserted)
-    AND annidatetime <= GETDATE();
+    --AND annidatetime <= GETDATE();
 
     DELETE FROM Reunion
     WHERE reunionuserid IN (SELECT userid FROM inserted)
-    AND reuniondatetime <= GETDATE();
+    --AND reuniondatetime <= GETDATE();
 
     DELETE FROM BachelorParty
     WHERE bacheloruserid IN (SELECT userid FROM inserted)
-    AND bachelordatetime <= GETDATE();
+    --AND bachelordatetime <= GETDATE();
 
     DELETE FROM CocktailParty
     WHERE cockuserid IN (SELECT userid FROM inserted)
-    AND cockdatetime <= GETDATE();
+    --AND cockdatetime <= GETDATE();
 END;
 
 
