@@ -76,6 +76,9 @@ BEGIN
 	END
 END
 
+select * from VUsers
+
+delete from VUsers where VUserid =10
 ----------------------------------------------------------------------------------------------
 
 
